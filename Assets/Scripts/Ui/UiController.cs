@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Entities;
 
-namespace ECSTest.Ui
+namespace Playground.Ui
 {
     public class UiController : MonoBehaviour
     {
@@ -17,6 +17,7 @@ namespace ECSTest.Ui
         [SerializeField] private TMP_InputField _botSpeedInput;
         [SerializeField] private TMP_Text _fpsText;
         [SerializeField] private TMP_Text _frameTimeText;
+        [SerializeField] private BaseSpawner _baseSpawner;
 
         [SerializeField] private float _statsUpdateDelay = 5f;
         private float _statsUpdateTime = 0f;
@@ -56,23 +57,21 @@ namespace ECSTest.Ui
             {
                 if (count > 0 && dist > 0 && speed >= 0f)
                 {
-                    SpawnSystem.SpawnSettings settings = new SpawnSystem.SpawnSettings {
+                    BaseSpawner.SpawnSettings settings = new BaseSpawner.SpawnSettings {
                         Count = count,
                         Dist = dist,
                         BotSpeed = speed
                     };
 
-                    Debug.Log($"Spawn {count} entities");
-                    World.DefaultGameObjectInjectionWorld
-                        .GetOrCreateSystem<SpawnSystem>()
-                        .Spawn(settings);
+                    Debug.Log($"Spawn {settings.Count} entities");
+                    _baseSpawner.Spawn(settings);
                 }
             }
         }
 
         private void ClearEntities()
         {
-            World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<SpawnSystem>().Clear();
+           _baseSpawner.Clear();
         }
 
         private void DisplayStats()

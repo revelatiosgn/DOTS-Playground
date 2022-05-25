@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GPUAnimation;
 using System.Linq;
+using Playground.Dots;
 
 namespace GPUInstance
 {

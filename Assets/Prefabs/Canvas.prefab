@@ -2916,7 +2916,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -2978,9 +2978,9 @@ MonoBehaviour:
   _countInput: {fileID: 5805041982427762489}
   _spawnDistInput: {fileID: 13431114}
   _botSpeedInput: {fileID: 191626088}
-  _countText: {fileID: 0}
   _fpsText: {fileID: 5805041983186388278}
   _frameTimeText: {fileID: 5805041981741764054}
+  _baseSpawner: {fileID: 0}
   _statsUpdateDelay: 1
 --- !u!1 &5805041983668405884
 GameObject:
