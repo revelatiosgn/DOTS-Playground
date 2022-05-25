@@ -20,14 +20,13 @@ namespace Playground.Dots
                 ref MoveData moveData,
                 ref BattleData battleData) => {
 
-                if (battleData.BattleTimer >= 0f)
+                if (battleData.BattleTimer > 0f)
                 {
-                    battleData.BattleTimer -= deltaTime;
                     rotation.Value = quaternion.LookRotation(battleData.Target - translation.Value, math.up());
                     return;
                 }
 
-                if (moveData.WaitTimer >= 0f)
+                if (moveData.WaitTimer > 0f)
                 {
                     moveData.Speed = 0f;
                     moveData.WaitTimer -= deltaTime;

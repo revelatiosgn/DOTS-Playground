@@ -84,6 +84,7 @@ namespace Playground.Dots
                 });
 
                 _manager.AddComponentData(newEntity, moveData);
+                _manager.AddComponentData(newEntity, new BattleData());
 
                 _manager.AddComponentData(newEntity, new AnimationData {
                     position = skinnedMesh.mesh.position,

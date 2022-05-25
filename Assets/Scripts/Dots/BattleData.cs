@@ -10,6 +10,7 @@ namespace Playground.Dots
     public struct BattleData : IComponentData
     {
         public float BattleTimer;
+        public float TimeoutTimer;
         public float3 Target;
     }
 }
