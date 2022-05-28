@@ -7,6 +7,7 @@ using Unity.Transforms;
 using Unity.Physics;
 using GPUInstance;
 using UnityEngine;
+using System;
 
 namespace Playground.Dots
 {
@@ -26,16 +27,6 @@ namespace Playground.Dots
             _blobAssetStore = new BlobAssetStore();
             GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetStore);
             _entityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(_botPrefab, settings);
-
-            int hierarchy_depth, skeleton_bone_count;
-            var controllers = GPUSkinnedMeshComponent.PrepareControllers(_characters, out hierarchy_depth, out skeleton_bone_count);
-
-            var meshInstancer = MeshInstancer.Instance;
-            meshInstancer.Initialize(max_parent_depth: hierarchy_depth + 2, num_skeleton_bones: skeleton_bone_count, pathCount: 2);
-            meshInstancer.SetAllAnimations(controllers);
-
-            foreach (var character in _characters)
-                meshInstancer.AddGPUSkinnedMeshType(character);
         }
 
         public override void Dispose()
@@ -52,14 +43,16 @@ namespace Playground.Dots
             _entities = new Entity[settings.Count];
             float dist = settings.Dist;
 
+            _skinnedMeshes = new SkinnedMesh[settings.Count];
+
             while (current < settings.Count)
             {
                 Unity.Mathematics.Random random = new Unity.Mathematics.Random((uint) (current + 1));
                 MoveData moveData = new MoveData();
                 moveData.MaxSpeed = settings.BotSpeed;
                 moveData.Speed = 0f;
-                moveData.Min = new float3(-dist * .5f, 0f, -dist * .5f);
-                moveData.Max = new float3(dist * .5f, 0f, dist * .5f);
+                moveData.MinRange = new float3(-dist * .5f, 0f, -dist * .5f);
+                moveData.MaxRange = new float3(dist * .5f, 0f, dist * .5f);
                 moveData.Random = random;
                 var t = moveData.NextTarget;
                 moveData.Target = moveData.NextTarget;
@@ -76,6 +69,8 @@ namespace Playground.Dots
                 skinnedMesh.Initialize();
                 skinnedMesh.SetAnimation(anim, speed: settings.BotSpeed * .5f, start_time: 0f); // set animation
                 skinnedMesh.UpdateAll();
+
+                _skinnedMeshes[current] = skinnedMesh;
 
                 Entity newEntity = _manager.Instantiate(_entityPrefab);
                 
@@ -114,14 +109,6 @@ namespace Playground.Dots
                     punchAnimID = mesh.anim.namedAnimations["Mutant Punch"].GPUAnimationID
                 });
 
-                // if (_manager.HasComponent<PhysicsMass>(newEntity))
-                // {
-                //     PhysicsMass mass = _manager.GetComponentData<PhysicsMass>(newEntity);
-                //     mass.InverseInertia[0] = 0f;
-                //     mass.InverseInertia[1] = 0f;
-                //     mass.InverseInertia[2] = 0f;
-                // }
-
                 _entities[current] = newEntity;
 
                 current++;
@@ -139,7 +126,7 @@ namespace Playground.Dots
             for (int i = 0; i < _entities.Length; i++)
             {
                 AnimationData animationData = _manager.GetComponentData<AnimationData>(_entities[i]);
-                MeshInstancer.Instance.mesh.Delete(animationData);
+                _skinnedMeshes[i].Dispose();
                 _manager.DestroyEntity(_entities[i]);
             }
             _entities = null;

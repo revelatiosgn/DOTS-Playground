@@ -24,8 +24,22 @@ namespace Playground
             "Mutant Walking"
         };
 
+        protected SkinnedMesh[] _skinnedMeshes;
+
         private void Start()
         {
+            if (!MeshInstancer.Instance.Initialized())
+            {
+                int hierarchy_depth, skeleton_bone_count;
+                var controllers = GPUSkinnedMeshComponent.PrepareControllers(_characters, out hierarchy_depth, out skeleton_bone_count);
+                var meshInstancer = MeshInstancer.Instance;
+                meshInstancer.Initialize(max_parent_depth: hierarchy_depth + 2, num_skeleton_bones: skeleton_bone_count, pathCount: 2);
+                
+                meshInstancer.SetAllAnimations(controllers);
+                foreach (var character in _characters)
+                    meshInstancer.AddGPUSkinnedMeshType(character);
+            }
+
             Init();
         }
 
@@ -45,6 +59,10 @@ namespace Playground
             public int Count;
             public int Dist;
             public float BotSpeed;
+        }
+
+        protected void InitMeshInstancer()
+        {
         }
     }
 }

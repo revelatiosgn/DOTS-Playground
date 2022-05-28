@@ -9,10 +9,10 @@ namespace Playground.Dots
         public float MaxSpeed;
         public float Speed;
         public float3 Target;
-        public float3 Min;
-        public float3 Max;
+        public float3 MinRange;
+        public float3 MaxRange;
         public Random Random;
-        public float3 NextTarget => Random.NextFloat3(Min, Max);
+        public float3 NextTarget => Random.NextFloat3(MinRange, MaxRange);
         public float WaitTimer;
     }
 }

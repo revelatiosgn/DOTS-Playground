@@ -17,6 +17,9 @@ namespace Playground.Mono
             var controllers = GPUSkinnedMeshComponent.PrepareControllers(_characters, out hierarchy_depth, out skeleton_bone_count);
 
             var meshInstancer = MeshInstancer.Instance;
+            if (meshInstancer.Initialized())
+                return;
+
             meshInstancer.Initialize(max_parent_depth: hierarchy_depth + 2, num_skeleton_bones: skeleton_bone_count, pathCount: 2);
             meshInstancer.SetAllAnimations(controllers);
 
@@ -30,6 +33,10 @@ namespace Playground.Mono
         
         public override void Spawn(SpawnSettings settings)
         {
+            Clear();
+            
+            _skinnedMeshes = new SkinnedMesh[settings.Count];
+
             int current = 0;
             while (current < settings.Count)
             {
@@ -45,6 +52,7 @@ namespace Playground.Mono
                 skinnedMesh.Initialize();
                 skinnedMesh.SetAnimation(anim, speed: settings.BotSpeed * .5f, start_time: 0f); // set animation
                 skinnedMesh.UpdateAll();
+                _skinnedMeshes[current] = skinnedMesh;
 
                 MonoBot bot = Instantiate(_botPrefab, skinnedMesh.mesh.position, Quaternion.identity);
                 bot.Init(new MonoMover.MoverData{
@@ -65,6 +73,15 @@ namespace Playground.Mono
 
         public override void Clear()
         {
+            if (_skinnedMeshes == null)
+                return;
+
+            UnityEngine.Debug.Log($"Clear {_skinnedMeshes.Length}");
+            for (int i = 0; i < _skinnedMeshes.Length; i++)
+            {
+                _skinnedMeshes[i].Dispose();
+            }
+            _skinnedMeshes = null;
         }
 
         private void Update()

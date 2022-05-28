@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Entities;
+using UnityEngine.SceneManagement;
 
 namespace Playground.Ui
 {
@@ -18,6 +19,7 @@ namespace Playground.Ui
         [SerializeField] private TMP_Text _fpsText;
         [SerializeField] private TMP_Text _frameTimeText;
         [SerializeField] private BaseSpawner _baseSpawner;
+        [SerializeField] private TMP_Dropdown _sceneDropdown;
 
         [SerializeField] private float _statsUpdateDelay = 5f;
         private float _statsUpdateTime = 0f;
@@ -28,6 +30,8 @@ namespace Playground.Ui
             _exit.onClick.AddListener(() => Application.Quit());
             _spawn.onClick.AddListener(SpawnEntities);
             _clear.onClick.AddListener(ClearEntities);
+
+            _sceneDropdown.SetValueWithoutNotify(SceneManager.GetActiveScene().buildIndex);
         }
 
         private void OnDestroy()
@@ -80,6 +84,11 @@ namespace Playground.Ui
             _frameTimeText.text = $"{frameTime} ms";
             int fps = (int) ((float) (_statsUpdateFrames) / _statsUpdateTime);
             _fpsText.text = $"{fps} fps";
+        }
+
+        public void ChangeScene(int index)
+        {
+            SceneManager.LoadScene(index);
         }
     }
 }

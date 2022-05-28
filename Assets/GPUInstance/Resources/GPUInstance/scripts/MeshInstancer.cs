@@ -696,6 +696,8 @@ namespace GPUInstance
                 if (mesh != null)
                     mesh.Dispose();
             }
+
+            _instance = null;
         }
 
         /// <summary>
