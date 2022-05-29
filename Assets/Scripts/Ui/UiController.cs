@@ -14,7 +14,7 @@ namespace Playground.Ui
         [SerializeField] private Button _spawn;
         [SerializeField] private Button _clear;
         [SerializeField] private TMP_InputField _countInput;
-        [SerializeField] private TMP_InputField _spawnDistInput;
+        [SerializeField] private TMP_InputField _densityInput;
         [SerializeField] private TMP_InputField _botSpeedInput;
         [SerializeField] private TMP_Text _fpsText;
         [SerializeField] private TMP_Text _frameTimeText;
@@ -33,7 +33,7 @@ namespace Playground.Ui
 
             _sceneDropdown.SetValueWithoutNotify(SceneManager.GetActiveScene().buildIndex);
         }
-
+        
         private void OnDestroy()
         {
         }
@@ -56,14 +56,14 @@ namespace Playground.Ui
         private void SpawnEntities()
         {
             if (int.TryParse(_countInput.text, out int count) &&
-                int.TryParse(_spawnDistInput.text, out int dist) &&
+                float.TryParse(_densityInput.text, out float density) &&
                 float.TryParse(_botSpeedInput.text, out float speed))
             {
-                if (count > 0 && dist > 0 && speed >= 0f)
+                if (count > 0 && density > 0f && speed >= 0f)
                 {
                     BaseSpawner.SpawnSettings settings = new BaseSpawner.SpawnSettings {
                         Count = count,
-                        Dist = dist,
+                        Density = density,
                         BotSpeed = speed
                     };
 

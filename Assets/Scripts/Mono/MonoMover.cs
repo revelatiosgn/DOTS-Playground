@@ -21,7 +21,7 @@ namespace Playground.Mono
 
         private void Start()
         {
-            _target = GetRand(_data.Radius);
+            _target = GetRand(_data.Dist);
         }
 
         private void Update()
@@ -40,7 +40,7 @@ namespace Playground.Mono
 
             if (Vector3.SqrMagnitude(transform.position - _target) < 0.01f)
             {
-                _target = GetRand(_data.Radius);
+                _target = GetRand(_data.Dist);
                 _waitTimer = 1f;
                 return;
             }
@@ -63,7 +63,7 @@ namespace Playground.Mono
         {
             public float MaxSpeed;
             public float Speed;
-            public float Radius;
+            public float Dist;
         }
     }
 }

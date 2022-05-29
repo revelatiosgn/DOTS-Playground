@@ -41,7 +41,7 @@ namespace Playground.Dots
             int current = 0;
 
             _entities = new Entity[settings.Count];
-            float dist = settings.Dist;
+            float dist = Mathf.Sqrt(settings.Count) / settings.Density;
 
             _skinnedMeshes = new SkinnedMesh[settings.Count];
 

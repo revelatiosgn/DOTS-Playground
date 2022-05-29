@@ -46,7 +46,7 @@ namespace Playground.Leo
 
             Debug.Log($"Spawn {settings.Count}!");
 
-            float dist = settings.Dist;
+            float dist = Mathf.Sqrt(settings.Count) / settings.Density;
 
             _skinnedMeshes = new SkinnedMesh[settings.Count];
 
@@ -60,7 +60,7 @@ namespace Playground.Leo
                 moveData.MaxSpeed = settings.BotSpeed;
                 moveData.Speed = 0f;
                 moveData.MinRange = -dist * .5f;
-                moveData.MaxRange = dist * 5f;
+                moveData.MaxRange = dist * .5f;
                 var t = moveData.NextTarget;
                 moveData.Target = moveData.NextTarget;
                 leoBot.transform.position = moveData.NextTarget;
@@ -74,7 +74,6 @@ namespace Playground.Leo
                 var anim = mesh.anim.namedAnimations["Mutant Breathing Idle"];
                 var skinnedMesh = new SkinnedMesh(mesh, MeshInstancer.Instance);
                 skinnedMesh.mesh.position = leoBot.transform.position;
-                skinnedMesh.mesh.position = default(Vector3);
                 skinnedMesh.SetRadius(1.75f); // set large enough radius so model doesnt get culled to early
                 skinnedMesh.Initialize();
                 skinnedMesh.SetAnimation(anim, speed: settings.BotSpeed * .5f, start_time: 0f); // set animation

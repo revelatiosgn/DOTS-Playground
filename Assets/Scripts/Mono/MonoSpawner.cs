@@ -37,6 +37,7 @@ namespace Playground.Mono
             
             _skinnedMeshes = new SkinnedMesh[settings.Count];
 
+            float dist = Mathf.Sqrt(settings.Count) / settings.Density;;
             int current = 0;
             while (current < settings.Count)
             {
@@ -47,7 +48,7 @@ namespace Playground.Mono
                 // var anim = mesh.anim.namedAnimations["walk"];
                 var anim = mesh.anim.namedAnimations["Mutant Breathing Idle"];
                 var skinnedMesh = new SkinnedMesh(mesh, MeshInstancer.Instance);
-                skinnedMesh.mesh.position = MonoMover.GetRand(settings.Dist);
+                skinnedMesh.mesh.position = MonoMover.GetRand(dist);
                 skinnedMesh.SetRadius(1.75f); // set large enough radius so model doesnt get culled to early
                 skinnedMesh.Initialize();
                 skinnedMesh.SetAnimation(anim, speed: settings.BotSpeed * .5f, start_time: 0f); // set animation
@@ -58,7 +59,7 @@ namespace Playground.Mono
                 bot.Init(new MonoMover.MoverData{
                             Speed = 0f,
                             MaxSpeed = settings.BotSpeed,
-                            Radius = settings.Dist
+                            Dist = dist
                         },
                         new MonoAnimator.AnimData {
                             walkAnimID = mesh.anim.namedAnimations["walk"].GPUAnimationID,

@@ -57,7 +57,7 @@ namespace Playground
         public struct SpawnSettings
         {
             public int Count;
-            public int Dist;
+            public float Density;
             public float BotSpeed;
         }
 

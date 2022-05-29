@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/DotsSampleScene.unity
-    guid: af223e1006f04384ebe7788d14089946
-  - enabled: 1
     path: Assets/Scenes/MonoSampleScene.unity
     guid: bae6dcf4a65f002458ff5edce31b58a9
   - enabled: 1
     path: Assets/Scenes/LeoSampleScene.unity
     guid: 5b2c6e533ba1d1240b465826cae15017
+  - enabled: 1
+    path: Assets/Scenes/DotsSampleScene.unity
+    guid: af223e1006f04384ebe7788d14089946
   m_configObjects: {}
